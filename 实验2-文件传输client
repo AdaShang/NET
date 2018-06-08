@@ -9,8 +9,8 @@ import struct
 
 def socket_client():
     try:
-        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        s.connect(('127.0.0.1', 6666))
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)       #创建TCP Socke
+        s.connect(('127.0.0.1', 6666))        #连接到address处的套接字
     except socket.error as msg:
         print msg
         sys.exit(1)
