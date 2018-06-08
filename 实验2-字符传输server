@@ -7,11 +7,11 @@ import sys
 
 def socket_service():
     try:
-        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)    #创建TCP Socket
         # 防止socket server重启后端口被占用（socket.error: [Errno 98] Address already in use）
         s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        s.bind(('127.0.0.1', 6666))
-        s.listen(10)
+        s.bind(('127.0.0.1', 6666))   #将套接字绑定到地址,
+        s.listen(10)   #监听
     except socket.error as msg:
         print msg
         sys.exit(1)
@@ -20,7 +20,7 @@ def socket_service():
     while 1:
         conn, addr = s.accept()
         t = threading.Thread(target=deal_data, args=(conn, addr))
-        t.start()
+        t.start()     #接受TCP连接并返回
 
 def deal_data(conn, addr):
     print 'Accept new connection from {0}'.format(addr)
@@ -33,9 +33,9 @@ def deal_data(conn, addr):
             print '{0} connection close'.format(addr)
             conn.send('Connection closed!')
             break
-        conn.send('Hello, {0}'.format(data))
-    conn.close()
+        conn.send('Hello, {0}'.format(data))        #接收/发送数据
+    conn.close()             #关闭
 
 
-if __name__ == '__main__':
-    socket_service()
+if __name__ == '__main__':      #既可以导入到别的模块中用，另外该模块自己也可执行。
+    socket_service()            #既可以让“模块”文件运行，也可以被其他模块引入，而且不会执行函数2次   
